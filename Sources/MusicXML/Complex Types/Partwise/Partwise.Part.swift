@@ -35,6 +35,7 @@ extension Partwise {
     }
 }
 
+
 extension Partwise.Part: Equatable {}
 
 extension Partwise.Part: Codable {
@@ -43,5 +44,37 @@ extension Partwise.Part: Codable {
     enum CodingKeys: String, CodingKey {
         case id
         case measures = "measure"
+    }
+    
+    // MARK: Encodable
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(id, forKey: .id)
+        try container.encodeIfPresent(measures, forKey: .measures)
+    }
+}
+
+import XMLCoder
+
+extension Partwise.Part: DynamicNodeDecoding {
+    public static func nodeDecoding(for key: CodingKey) -> XMLDecoder.NodeDecoding {
+        switch key {
+        case CodingKeys.id:
+            return .attribute
+        default:
+            return .element
+        }
+    }
+}
+
+extension Partwise.Part: DynamicNodeEncoding {
+    public static func nodeEncoding(for key: CodingKey) -> XMLEncoder.NodeEncoding {
+        switch key {
+        case CodingKeys.id:
+            return .attribute
+        default:
+            return .element
+        }
     }
 }
