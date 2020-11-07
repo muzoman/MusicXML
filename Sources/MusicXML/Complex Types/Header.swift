@@ -40,7 +40,7 @@ public struct Header: Equatable {
 extension Header: Codable {
     // MARK: - Codable
 
-    // MARK: - Decodable
+    // MARK: - Encodable
 
     enum CodingKeys: String, CodingKey {
         case work
@@ -51,4 +51,17 @@ extension Header: Codable {
         case credits = "credit"
         case partList = "part-list"
     }
+    
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(work, forKey: .work)
+        try container.encodeIfPresent(movementNumber, forKey: .movementNumber)
+        try container.encodeIfPresent(movementTitle, forKey: .movementTitle)
+        try container.encodeIfPresent(identification, forKey: .identification)
+        try container.encodeIfPresent(defaults, forKey: .defaults)
+        try container.encodeIfPresent(credits, forKey: .credits)
+        try container.encode(partList, forKey: .partList)
+    }
+
 }
