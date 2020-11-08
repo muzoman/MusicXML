@@ -79,7 +79,7 @@ extension Partwise: Codable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try header.encode(to: encoder)
-        try container.encode(parts, forKey: .parts)
+        try parts.encode(to: encoder)
     }
 
 }
