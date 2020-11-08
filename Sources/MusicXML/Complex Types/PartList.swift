@@ -55,7 +55,7 @@ extension PartList.Item: Codable {
         case let .group(value):
             try container.encode(value, forKey: .group)
         case let .part(value):
-            try container.encode(value, forKey: .part)
+            try value.encode(to: encoder)
         }
     }
 
