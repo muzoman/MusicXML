@@ -10,6 +10,23 @@ import XCTest
 import XMLCoder
 
 class PartListTests: XCTestCase {
+    
+    func testScorePartEncoding() throws {
+        let expectedXML = """
+        <part-list><score-part id="P1"><part-name>MusicXML Part1</part-name></score-part></part-list>
+        """
+        let expected = PartList([.part(ScorePart(id: "P1", name: "MusicXML Part1"))])
+        var data = Data()
+        do {
+            data = try XMLEncoder().encode(expected, withRootKey: "part-list")
+        } catch let error {
+           print(error.localizedDescription)
+       }
+        let expectedStr = String(data: data, encoding: .utf8)!
+        XCTAssertEqual(expectedXML, expectedStr)
+    }
+    
+    
     func testScorePartDecoding() throws {
         let xml = """
         <part-list>

@@ -76,9 +76,9 @@ extension Partwise: Codable {
     }
     
     // MARK: Encodable
-    
+/*
     public func encode(to encoder: Encoder) throws {
         try header.encode(to: encoder)
     }
-
+*/
 }

@@ -55,7 +55,7 @@ extension PartList.Item: Codable {
         case let .group(value):
             try container.encode(value, forKey: .group)
         case let .part(value):
-            try value.encode(to: encoder)
+            try container.encode(value, forKey: .part)
         }
     }
 
@@ -95,6 +95,13 @@ extension PartList: Codable {
     public init(from decoder: Decoder) throws {
         let singleValue = try decoder.singleValueContainer()
         self.parts = try singleValue.decode([Item].self)
+    }
+    
+    // MARK: Encodable
+
+    public func encode(to encoder: Encoder) throws {
+        var singleValue = encoder.singleValueContainer()
+        try singleValue.encode(parts)
     }
 }
 
